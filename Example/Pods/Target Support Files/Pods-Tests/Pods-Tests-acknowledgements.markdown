@@ -34,7 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ## SPXCacheManager
 
-Copyright (c) 2015 Shaps Mohsenin <shaps@theappbusiness.com>
+Copyright (c) 2015 Shaps Mohsenin <shapsuk@me.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

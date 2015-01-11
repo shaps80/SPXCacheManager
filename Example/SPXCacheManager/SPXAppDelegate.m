@@ -7,40 +7,77 @@
 //
 
 #import "SPXAppDelegate.h"
+#import "SPXCacheManager.h"
+
+static NSString * const MemoryCache = @"MemoryCache";
 
 @implementation SPXAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
-    return YES;
-}
-							
-- (void)applicationWillResignActive:(UIApplication *)application
-{
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+  [self setResource];
+  [self getResource];
+  [self simple];
+  
+  return YES;
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application
+- (void)contexts
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+  id context = nil;
+  SPXCache *cache = [SPXCacheManager cacheNamed:@"Contexts"];
+  
+  cache[@"story1234"] = context;
+  context = cache[@"story1234"];
 }
 
-- (void)applicationWillEnterForeground:(UIApplication *)application
+- (void)networkResource
 {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+  SPXCache *cache = [SPXCacheManager cacheNamed:@"Contexts"];
+  cache = [SPXCache cacheWithStores:[NSSet setWithObjects:[SPXCache new], nil]];
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application
+- (void)setResource
 {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+  SPXCache *cache = [SPXCacheManager defaultCache];
+  SPXResourceEntity *entity = nil;
+  
+  NSString *identifier = @"http://google.com";
+  UIImage *image = [UIImage imageNamed:@"image"];
+  
+  entity = [cache addResource:image];
+  entity = [cache setResource:image withIdentifier:identifier];
+  
+  entity = cache[identifier];
+  cache[identifier] = image;
 }
 
-- (void)applicationWillTerminate:(UIApplication *)application
+- (void)getResource
 {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+  SPXCache *cache = [SPXCacheManager defaultCache];
+  SPXResourceEntity *entity = nil;
+  
+  id <SPXResource> image = nil;
+  NSString *identifier = @"http://google.com";
+  
+  entity = [cache entityForIdentifier:identifier];
+  image = entity.resource;
+}
+
+- (void)simple
+{
+  NSString *identifier = @"http://google.com";
+  
+  SPXCache *cache = [SPXCacheManager defaultCache];
+  
+  cache[identifier] = [UIImage imageNamed:@"image"];
+  SPXResourceEntity *entity = cache[identifier];
+  NSLog(@"%@", entity);
+  
+  [cache setProcessCacheBlock:^(SPXResourceEntity *entity) {
+    NSLog(@"%@", entity);
+  }];
 }
 
 @end
+
