@@ -1,3 +1,9 @@
+# Note: This library is a work in progress and NOT YET available!
+
+
+
+
+
 # SPXCacheManager
 
 [![CI Status](http://img.shields.io/travis/Shaps Mohsenin/SPXCacheManager.svg?style=flat)](https://travis-ci.org/Shaps Mohsenin/SPXCacheManager)
